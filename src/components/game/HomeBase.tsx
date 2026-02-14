@@ -9,6 +9,7 @@ interface HomeBaseProps {
   selectableTokenIds: string[];
   selectedTokenId: string | null;
   onTokenClick: (tokenId: string) => void;
+  colorblindMode?: boolean;
 }
 
 const baseColors: Record<PlayerColor, {
@@ -49,6 +50,7 @@ export const HomeBase = ({
   selectableTokenIds,
   selectedTokenId,
   onTokenClick,
+  colorblindMode = false,
 }: HomeBaseProps) => {
   const colors = baseColors[color];
   const homeTokens = tokens.filter(t => t.state === 'home');
@@ -56,11 +58,9 @@ export const HomeBase = ({
   return (
     <motion.div
       className={cn(
-        'w-full h-full rounded-2xl p-2',
-        colors.bg,
-        'border-2',
-        colors.border,
-        'shadow-inner'
+        'w-full h-full p-2',
+        'home-base',
+        `home-base-${color}`,
       )}
       initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
@@ -68,10 +68,8 @@ export const HomeBase = ({
     >
       <div
         className={cn(
-          'w-full h-full rounded-xl flex items-center justify-center',
-          colors.inner,
-          'border',
-          colors.border
+          'w-full h-full rounded-xl flex items-center justify-center bg-black/10 backdrop-blur-sm',
+          'border border-white/5'
         )}
       >
         <div className="grid grid-cols-2 gap-2 p-2">
@@ -96,6 +94,7 @@ export const HomeBase = ({
                     isSelected={selectedTokenId === token.id}
                     onClick={() => onTokenClick(token.id)}
                     size="lg"
+                    colorblindMode={colorblindMode}
                   />
                 )}
               </div>

@@ -23,29 +23,44 @@ export const CenterTriangles = ({ finishedTokens }: CenterTrianglesProps) => {
 
   return (
     <div className="w-full h-full relative">
-      <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
-        {/* Background circle */}
-        <circle cx="50" cy="50" r="48" fill="white" opacity="0.1" />
+      <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+        {/* Background base */}
+        <circle cx="50" cy="50" r="48" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
+
+        {/* Glass effect overlays for triangles */}
+        <defs>
+          <filter id="glass-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
 
         {triangles.map(({ color, rotate }) => (
           <motion.polygon
             key={color}
-            points="50,50 35,20 65,20"
+            points="50,50 32,15 68,15"
             fill={triangleColors[color]}
             stroke="white"
-            strokeWidth="0.8"
-            opacity={0.9}
+            strokeWidth="0.5"
+            strokeOpacity={0.4}
+            opacity={0.8}
             transform={`rotate(${rotate} 50 50)`}
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.9, scale: 1 }}
-            transition={{ duration: 0.3, delay: rotate / 1000 }}
+            animate={{ opacity: 0.8, scale: 1 }}
+            transition={{ duration: 0.5, delay: rotate / 1000 }}
+            style={{ filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.1))' }}
           />
         ))}
 
-        {/* Center home circle */}
-        <circle cx="50" cy="50" r="10" fill="white" stroke="#e0e0e0" strokeWidth="1" />
-        <circle cx="50" cy="50" r="6" fill="#FFD700" opacity="0.8" />
-        <text x="50" y="53" textAnchor="middle" fontSize="7" fill="white" fontWeight="bold">★</text>
+        {/* Center home goal circle */}
+        <circle cx="50" cy="50" r="14" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(212, 175, 55, 0.5)" strokeWidth="1" />
+        <motion.circle
+          cx="50" cy="50" r="10"
+          fill="rgba(212, 175, 55, 0.2)"
+          animate={{ r: [10, 11, 10], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        />
+        <text x="50" y="54" textAnchor="middle" fontSize="12" fill="#FFD700" fontWeight="black" style={{ filter: 'drop-shadow(0 0 5px rgba(255,215,0,0.5))' }}>★</text>
       </svg>
 
       {/* Finished tokens count overlay */}
@@ -55,7 +70,7 @@ export const CenterTriangles = ({ finishedTokens }: CenterTrianglesProps) => {
             tokens.length > 0 ? (
               <div
                 key={color}
-                className="bg-white/90 rounded px-1 text-center shadow-sm"
+                className="bg-black/60 backdrop-blur-md rounded-full px-2 py-0.5 text-center border border-white/10 shadow-lg"
                 style={{ color: triangleColors[color as PlayerColor] }}
               >
                 {tokens.length}

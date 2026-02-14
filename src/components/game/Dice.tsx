@@ -52,12 +52,11 @@ const DiceDots = ({ value }: { value: number }) => {
       {dots.map((pos, index) => (
         <motion.div
           key={index}
-          className="absolute w-3.5 h-3.5 bg-slate-800 rounded-full"
+          className="dice-dot"
           style={{
             top: pos.top,
             left: pos.left,
             transform: 'translate(-50%, -50%)',
-            boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.3)',
           }}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -83,17 +82,14 @@ export const Dice = ({ value, isRolling, onRoll, disabled, playerColor }: DicePr
         disabled={disabled || isRolling}
         className={cn(
           'relative w-[72px] h-[72px] rounded-2xl cursor-pointer touch-target',
-          'bg-gradient-to-br from-white via-gray-50 to-gray-200',
-          'border-b-[5px] border-gray-400/60',
-          'active:border-b-0 active:translate-y-1',
-          'transition-all duration-150',
+          'dice-premium',
           isRolling && 'animate-spin cursor-not-allowed',
           disabled && !isRolling && 'opacity-40 cursor-not-allowed grayscale',
         )}
         style={{
           boxShadow: !disabled && playerColor && glowColors[playerColor]
-            ? `0 6px 12px rgba(0,0,0,0.3), ${glowColors[playerColor]}`
-            : '0 6px 12px rgba(0,0,0,0.3)',
+            ? glowColors[playerColor]
+            : undefined,
         }}
         whileHover={!disabled && !isRolling ? { scale: 1.08, y: -2 } : {}}
         whileTap={!disabled && !isRolling ? { scale: 0.92 } : {}}

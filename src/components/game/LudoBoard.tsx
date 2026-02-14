@@ -18,12 +18,14 @@ interface LudoBoardProps {
   gameState: GameState;
   selectableTokenIds: string[];
   onTokenClick: (tokenId: string) => void;
+  colorblindMode?: boolean;
 }
 
 export const LudoBoard = ({
   gameState,
   selectableTokenIds,
   onTokenClick,
+  colorblindMode = false,
 }: LudoBoardProps) => {
   // Calculate which tokens are on which board position
   const tokenPositions = useMemo(() => {
@@ -138,6 +140,7 @@ export const LudoBoard = ({
         selectableTokenIds={selectableTokenIds}
         selectedTokenId={gameState.selectedTokenId}
         onTokenClick={onTokenClick}
+        colorblindMode={colorblindMode}
       />
     );
   };
@@ -152,9 +155,7 @@ export const LudoBoard = ({
     <motion.div
       className={cn(
         'relative aspect-square w-full max-w-[min(100vw-2rem,500px)]',
-        'bg-white rounded-[2rem] p-3',
-        'shadow-[0_0_0_12px_#5d4037,0_0_0_16px_#3e2723,0_20px_50px_rgba(0,0,0,0.5)]', // Wood border effect
-        'border-4 border-[#8d6e63]'
+        'board-premium p-3',
       )}
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
@@ -192,6 +193,7 @@ export const LudoBoard = ({
                     selectableTokenIds={selectableTokenIds}
                     selectedTokenId={gameState.selectedTokenId}
                     onTokenClick={onTokenClick}
+                    colorblindMode={colorblindMode}
                   />
                 </div>
               );
@@ -214,6 +216,7 @@ export const LudoBoard = ({
                     selectableTokenIds={selectableTokenIds}
                     selectedTokenId={gameState.selectedTokenId}
                     onTokenClick={onTokenClick}
+                    colorblindMode={colorblindMode}
                   />
                 </div>
               );
@@ -236,6 +239,7 @@ export const LudoBoard = ({
                     selectableTokenIds={selectableTokenIds}
                     selectedTokenId={gameState.selectedTokenId}
                     onTokenClick={onTokenClick}
+                    colorblindMode={colorblindMode}
                   />
                 </div>
               );
@@ -258,6 +262,7 @@ export const LudoBoard = ({
                     selectableTokenIds={selectableTokenIds}
                     selectedTokenId={gameState.selectedTokenId}
                     onTokenClick={onTokenClick}
+                    colorblindMode={colorblindMode}
                   />
                 </div>
               );

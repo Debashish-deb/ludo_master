@@ -32,6 +32,9 @@ export interface GameState {
   winner: Player | null;
   rankings: Player[];
   turnCount: number;
+  consecutiveSixes: number;
+  lastCaptureEvent: { attackerColor: PlayerColor; victimColor: PlayerColor; position: number } | null;
+  lastFinishEvent: { color: PlayerColor; tokenId: string } | null;
 }
 
 export interface BoardCell {
@@ -52,6 +55,7 @@ export const CELLS_PER_SIDE = 6;
 export const TOTAL_PATH_LENGTH = 52;
 export const HOME_STRETCH_LENGTH = 6;
 export const TOKENS_PER_PLAYER = 4;
+export const MAX_CONSECUTIVE_SIXES = 3;
 
 // Starting positions for each color (where tokens enter the board)
 export const START_POSITIONS: Record<PlayerColor, number> = {

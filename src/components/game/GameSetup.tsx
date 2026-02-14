@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { PlayerColor } from '@/types/game';
+import { useAccessibility } from '@/hooks/useAccessibility';
 
 interface GameSetupProps {
   onStart: (config: {
@@ -46,6 +47,7 @@ export const GameSetup = ({ onStart }: GameSetupProps) => {
   const [aiDifficulty, setAiDifficulty] = useState<'medium' | 'hard' | 'expert'>('medium');
   const [humanPlayerColor, setHumanPlayerColor] = useState<PlayerColor>('red');
   const [showSettings, setShowSettings] = useState(false);
+  const { colorblindMode, reducedMotion, toggleColorblind, toggleReducedMotion } = useAccessibility();
 
   const handleStart = () => {
     onStart({
@@ -251,6 +253,45 @@ export const GameSetup = ({ onStart }: GameSetupProps) => {
                   )}
                 </motion.button>
               ))}
+            </div>
+          </div>
+
+          {/* Accessibility */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+            <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-3">♿ Accessibility</p>
+            <div className="space-y-3">
+              {/* Colorblind toggle */}
+              <button
+                onClick={toggleColorblind}
+                className="w-full flex items-center justify-between h-11 px-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+              >
+                <span className="text-white/80 text-sm font-semibold">Colorblind Mode</span>
+                <div className={cn(
+                  'w-10 h-6 rounded-full transition-colors duration-200 relative',
+                  colorblindMode ? 'bg-green-500' : 'bg-white/20',
+                )}>
+                  <div className={cn(
+                    'absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform duration-200',
+                    colorblindMode ? 'translate-x-5' : 'translate-x-1',
+                  )} />
+                </div>
+              </button>
+              {/* Reduced motion toggle */}
+              <button
+                onClick={toggleReducedMotion}
+                className="w-full flex items-center justify-between h-11 px-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+              >
+                <span className="text-white/80 text-sm font-semibold">Reduced Motion</span>
+                <div className={cn(
+                  'w-10 h-6 rounded-full transition-colors duration-200 relative',
+                  reducedMotion ? 'bg-green-500' : 'bg-white/20',
+                )}>
+                  <div className={cn(
+                    'absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform duration-200',
+                    reducedMotion ? 'translate-x-5' : 'translate-x-1',
+                  )} />
+                </div>
+              </button>
             </div>
           </div>
         </motion.div>

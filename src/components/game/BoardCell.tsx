@@ -12,6 +12,7 @@ interface BoardCellProps {
   selectableTokenIds: string[];
   selectedTokenId: string | null;
   onTokenClick: (tokenId: string) => void;
+  colorblindMode?: boolean;
 }
 
 const colorBgClasses: Record<PlayerColor, string> = {
@@ -45,27 +46,31 @@ export const BoardCell = ({
   selectableTokenIds,
   selectedTokenId,
   onTokenClick,
+  colorblindMode = false,
 }: BoardCellProps) => {
-  const getCellBackground = () => {
+  const getCellClasses = () => {
+    const classes = ['board-cell'];
+
+    if (isSafe && !isStart) {
+      classes.push('board-cell-safe');
+    }
+
     if (isStart && startColor) {
-      return startColorClasses[startColor];
+      classes.push(`bg-${startColor}-500`); // Fallback for start cells if not specifically styled
     }
+
     if (isHomeStretch && homeStretchColor) {
-      return homeStretchGradients[homeStretchColor];
+      classes.push(`home-stretch-${homeStretchColor}`);
     }
-    if (isSafe) {
-      return 'bg-amber-100/80';
-    }
-    return 'bg-white/90';
+
+    return classes.join(' ');
   };
 
   return (
     <div
       className={cn(
-        'w-full h-full flex items-center justify-center',
-        'border border-gray-300/40 rounded-[3px]',
-        'transition-colors duration-150',
-        getCellBackground()
+        'w-full h-full flex items-center justify-center rounded-[4px]',
+        getCellClasses()
       )}
     >
       {/* Star icon for safe cells */}
@@ -85,6 +90,7 @@ export const BoardCell = ({
           selectableTokenIds={selectableTokenIds}
           selectedTokenId={selectedTokenId}
           onTokenClick={onTokenClick}
+          colorblindMode={colorblindMode}
         />
       )}
     </div>
